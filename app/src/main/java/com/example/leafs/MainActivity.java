@@ -1,6 +1,7 @@
 package com.example.leafs;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -13,7 +14,8 @@ import java.util.TimerTask;
 public class MainActivity extends AppCompatActivity {
     float screenWidth, screenHeight;
 
-    int n = 5;
+    ConstraintLayout screen;
+    int n = 55;
     ImageView[] leaf = new ImageView[n];
     float[] x = new float[n], y = new float[n];
     float[] speedX = new float[n], speedY = new float[n];
@@ -27,17 +29,21 @@ public class MainActivity extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         screenHeight = displayMetrics.heightPixels;
         screenWidth = displayMetrics.widthPixels;
+        screen = findViewById(R.id.scr);
 
-        leaf[0] = findViewById(R.id.leaf0);
-        leaf[1] = findViewById(R.id.leaf1);
-        leaf[2] = findViewById(R.id.leaf2);
-        leaf[3] = findViewById(R.id.leaf3);
-        leaf[4] = findViewById(R.id.leaf4);
 
         Random rnd = new Random();
         for (int i = 0; i < n; i++) {
             speedX[i] = rnd.nextInt(5)+1;
             speedY[i] = rnd.nextInt(5)+1;
+
+            leaf[i] = new ImageView(this);
+            ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(200, 200);
+            leaf[i].setLayoutParams(params);
+            leaf[i].setX(0);
+            leaf[i].setY(0);
+            leaf[i].setImageResource(R.drawable.leaf);
+            screen.addView(leaf[i]);
         }
         
         Timer timer = new Timer();
