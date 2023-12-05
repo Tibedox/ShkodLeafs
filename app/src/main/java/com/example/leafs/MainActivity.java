@@ -6,13 +6,14 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.widget.ImageView;
 
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
     float screenWidth, screenHeight;
 
-    int n = 2;
+    int n = 5;
     ImageView[] leaf = new ImageView[n];
     float[] x = new float[n], y = new float[n];
     float[] speedX = new float[n], speedY = new float[n];
@@ -29,10 +30,15 @@ public class MainActivity extends AppCompatActivity {
 
         leaf[0] = findViewById(R.id.leaf0);
         leaf[1] = findViewById(R.id.leaf1);
-        speedX[0] = 5;
-        speedX[1] = 4;
-        speedY[0] = 5;
-        speedY[1] = 3;
+        leaf[2] = findViewById(R.id.leaf2);
+        leaf[3] = findViewById(R.id.leaf3);
+        leaf[4] = findViewById(R.id.leaf4);
+
+        Random rnd = new Random();
+        for (int i = 0; i < n; i++) {
+            speedX[i] = rnd.nextInt(5)+1;
+            speedY[i] = rnd.nextInt(5)+1;
+        }
         
         Timer timer = new Timer();
         TimerTask task = new TimerTask() {
