@@ -15,33 +15,32 @@ public class MainActivity extends AppCompatActivity {
     float screenWidth, screenHeight;
 
     ConstraintLayout screen;
-    int n = 155;
-    ImageView[] leaf = new ImageView[n];
-    float[] x = new float[n], y = new float[n];
-    float[] speedX = new float[n], speedY = new float[n];
+    int nLeafs = 25; // количество листьев
+    ImageView[] leaf = new ImageView[nLeafs];
+
+    float[] x = new float[nLeafs];
+    float[] y = new float[nLeafs];
+    float[] speedX = new float[nLeafs];
+    float[] speedY = new float[nLeafs];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        screenHeight = displayMetrics.heightPixels;
-        screenWidth = displayMetrics.widthPixels;
+        detectScreenSize();
         screen = findViewById(R.id.scr);
 
-
         Random rnd = new Random();
-        for (int i = 0; i < n; i++) {
-            speedX[i] = rnd.nextInt(5)+1;
-            speedY[i] = rnd.nextInt(5)+1;
+        for (int i = 0; i < nLeafs; i++) {
+            speedX[i] = rnd.nextFloat()*2;
+            speedY[i] = rnd.nextFloat()*5+2;
 
             leaf[i] = new ImageView(this);
             ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(200, 200);
             leaf[i].setLayoutParams(params);
-            leaf[i].setX(0);
-            leaf[i].setY(0);
+            leaf[i].setX(rnd.nextFloat()*(screenWidth+200)-200);
+            leaf[i].setY(rnd.nextFloat()*(screenHeight+200)-200);
             leaf[i].setImageResource(R.drawable.leaf);
             screen.addView(leaf[i]);
         }
@@ -50,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                for (int i = 0; i < n; i++) {
+                for (int i = 0; i < nLeafs; i++) {
                     x[i] = leaf[i].getX() + speedX[i];
                     if (x[i] > screenWidth) x[i] = -leaf[i].getWidth();
                     leaf[i].setX(x[i]);
@@ -61,5 +60,12 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         timer.scheduleAtFixedRate(task, 0, 10);
+    }
+
+    void detectScreenSize(){
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        screenHeight = displayMetrics.heightPixels;
+        screenWidth = displayMetrics.widthPixels;
     }
 }
