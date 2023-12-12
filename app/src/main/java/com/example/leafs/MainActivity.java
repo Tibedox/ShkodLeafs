@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
     float screenWidth, screenHeight;
 
     ConstraintLayout screen;
-    int n = 55;
+    int n = 155;
     ImageView[] leaf = new ImageView[n];
     float[] x = new float[n], y = new float[n];
     float[] speedX = new float[n], speedY = new float[n];
